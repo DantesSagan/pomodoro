@@ -34,7 +34,7 @@ export default function useTimer() {
   const [isActive, setIsActive] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [timer, setTimer] = useState(1500);
-  const [timerBr, setTimerBr] = useState(3900);
+  const [timerBr, setTimerBr] = useState(300);
   const countRef = useRef(null);
 
   const handleStart = () => {

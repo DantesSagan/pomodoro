@@ -1,127 +1,155 @@
 import useTimer from './hooks/useTimer';
 import './App.css';
+import { useState } from 'react';
 
 export default function App() {
   const {
-    counter,
-    minutes,
+    // start,
+    // start2,
+    // end,
+    // setTimer,
+    // setMinutes,
+    timerBr,
+    setTimerBr,
     timer,
     isActive,
     isPaused,
-    start,
-    start2,
-    setCounter,
-    setMinutes,
+    setTimer,
     handlePause,
     handleResume,
     handleReset,
+    handleStart,
   } = useTimer();
-
-  return (
-    <div className='App'>
+  const [timerType] = useState('Session');
+  const switchMinutes = () => {
+    return (
       <div
-        className='container algin-items-center justify-content-center '
+        className='align-items-end'
+        id='timer-label'
         style={{
-          marginTop: '150px',
-          padding: '100px',
-          display: 'block',
+          fontSize: '2rem',
+          margin: '15px',
+          padding: '15px',
+          backgroundColor: 'wheat',
+          border: '1px solid black',
+          borderRadius: '30px',
         }}
       >
-        <h1 className='align-items-start'>25 + 5 Clock</h1>
-        <div className='align-items-center' id='break-label'>
-          <div className='col' id='break-label'>
-            Break Length
-          </div>
-          <button
-            className='col'
-            id='break-decrement'
-            onClick={() => setCounter((prev) => prev - 1)}
-          >
-            -
-          </button>
+        <div className='col'>
+          <label id='timer-label'>Session:</label>
           <div
-            id='break-length'
-            onChange={(e) => setCounter(e.target.value)}
-            value={counter || ''}
+            id='time-left'
             className='col'
-            style={{ fontSize: '1.5rem' }}
+            onChange={(e) => setTimer(e.target.value)}
+            value={timer || ''}
           >
-            {counter}
-            <button onClick={start2}>Start</button>
+            {formatTime(timer)}
           </div>
-          <button
-            className='col'
-            id='break-increment'
-            onClick={() => setCounter((prev) => prev + 1)}
-          >
-            +
-          </button>
-        </div>
-
-        <div className='align-items-center' id='session-label'>
-          <div className='col'>Session Length</div>
-          <button
-            id='session-decrement'
-            className='col'
-            onClick={() => setMinutes((prev) => prev - 1)}
-          >
-            -
-          </button>
-          <div
-            id='session-length'
-            className='col'
-            style={{ fontSize: '1.5rem' }}
-          >
-            {minutes}
-          </div>
-          <button
-            id='session-increment'
-            className='col'
-            onClick={() => setMinutes((prev) => prev + 1)}
-          >
-            +
-          </button>
-        </div>
-
-        <div
-          className='align-items-end'
-          id='timer-label'
-          style={{
-            fontSize: '2rem',
-            margin: '15px',
-            padding: '15px',
-            backgroundColor: 'wheat',
-            border: '1px solid black',
-            borderRadius: '30px',
-          }}
-        >
-          <div className='col'>
-            <label id='timer-label'>Session:</label>
-            <div
-              id='time-left'
-              className='col'
-              onChange={(e) => setMinutes(e.target.value)}
-              value={minutes || ''}
-            >
-              {timer}
-            </div>
-            <div className='col'>
-              <div id='start_stop'>
-                {!isActive && !isPaused ? (
-                  <button onClick={start}>Start</button>
-                ) : isPaused ? (
-                  <button onClick={handlePause}>Pause</button>
-                ) : (
-                  <button onClick={handleResume}>Resume</button>
-                )}
-              </div>
-              <button id='reset' onClick={handleReset} disabled={!isActive}>
-                Reset
-              </button>
-            </div>
-          </div>
+          {startStop()}
         </div>
       </div>
+    );
+  };
+
+  const startStop = () => {
+    return (
+      <div className='col'>
+        <div id='start_stop'>
+          {!isActive && !isPaused ? (
+            <button onClick={handleStart}>Start</button>
+          ) : isPaused ? (
+            <button onClick={handlePause}>Pause</button>
+          ) : (
+            <button onClick={handleResume}>Resume</button>
+          )}
+        </div>
+        <button id='reset' onClick={handleReset} disabled={!isActive}>
+          Reset
+        </button>
+      </div>
+    );
+  };
+  const formatTime = () => {
+    const ss = `${timer % 60}`.slice(-2);
+    const minutes = `${Math.floor(timer / 60)}`;
+    const mm = `${minutes % 90}`.slice(-2);
+    const seconds = ss < 10 ? '0' + ss : ss;
+    const minutess = mm < 10 ? '0' + mm : mm;
+    return `${minutess}:${seconds}`;
+  };
+  const formatTimes = () => {
+    const ss = `0${timerBr % 60}`.slice(-1);
+    const minutes = `${Math.floor(timerBr / 60)}`;
+    const mm = `0${minutes % 60}`.slice(-1);
+
+    return `${mm} : ${ss}`;
+  };
+  return (
+    <div
+      className='container algin-items-center justify-content-center '
+      style={{
+        marginTop: '150px',
+        padding: '100px',
+        display: 'block',
+        textAlign: 'center',
+      }}
+    >
+      <h1 className='align-items-start'>25 + 5 Clock</h1>
+      <div className='align-items-center' id='break-label'>
+        <div className='col' id='break-label'>
+          Break Length
+        </div>
+        <button
+          className='col'
+          id='break-decrement'
+          onClick={() => setTimerBr((prev) => prev - 1)}
+        >
+          -
+        </button>
+        <div
+          id='break-length'
+          value={timerBr || ''}
+          className='col'
+          style={{ fontSize: '1.5rem' }}
+        >
+          {formatTimes(timerBr).slice(0, -4)}
+          {/* <button onClick={start2}>Start</button> */}
+        </div>
+        <button
+          className='col'
+          id='break-increment'
+          onClick={() => setTimerBr((prev) => prev + 1)}
+        >
+          +
+        </button>
+      </div>
+
+      <div className='align-items-center' id='session-label'>
+        <div className='col'>Session Length</div>
+        <button
+          id='session-decrement'
+          className='col'
+          onClick={() => setTimer((prev) => prev - 60)}
+        >
+          -
+        </button>
+        <div
+          value={timer || ''}
+          id='session-length'
+          className='col'
+          style={{ fontSize: '1.5rem' }}
+        >
+          {formatTime(timer).slice(0, -3)}
+        </div>
+        <button
+          id='session-increment'
+          className='col'
+          onClick={() => setTimer((prev) => prev + 60)}
+        >
+          +
+        </button>
+      </div>
+      {switchMinutes()}
     </div>
   );
 }

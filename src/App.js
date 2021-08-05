@@ -1,3 +1,5 @@
+import SwitchLength from './components/switchLength';
+import TimerLeft from './components/timerLeft';
 import useTimer from './hooks/useTimer';
 import './App.css';
 
@@ -8,6 +10,8 @@ export default function App() {
     // end,
     // setTimer,
     // setMinutes,
+    displayTime,
+    setDisplayTime,
     timerBr,
     setTimerBr,
     timer,
@@ -20,64 +24,54 @@ export default function App() {
     handleStart,
   } = useTimer();
 
-  const switchMinutesSession = () => {
-    return (
-      <div
-        className='align-items-end'
-        id='timer-label'
-        style={{
-          fontSize: '2rem',
-          margin: '15px',
-          padding: '15px',
-          backgroundColor: 'wheat',
-          border: '1px solid black',
-          borderRadius: '30px',
-        }}
-      >
-        <div className='col'>
-          <label id='timer-label'>Session:</label>
-          <div
-            id='time-left'
-            className='col'
-            onChange={(e) => setTimer(e.target.value)}
-            value={timer}
-          >
-            {formatTime(timer)}
-          </div>
-          {startStop()}
-        </div>
-      </div>
-    );
-  };
-  const switchMinutesBr = () => {
-    return (
-      <div
-        className='align-items-end'
-        id='timer-label'
-        style={{
-          fontSize: '2rem',
-          margin: '15px',
-          padding: '15px',
-          backgroundColor: 'wheat',
-          border: '1px solid black',
-          borderRadius: '30px',
-        }}
-      >
-        <div className='col'>
-          <label id='timer-label'>Break:</label>
-          <div
-            id='time-left'
-            className='col'
-            onChange={(e) => setTimer(e.target.value)}
-            value={timerBr}
-          >
-            {formatTimes(timerBr)}
-          </div>
-          {startStop()}
-        </div>
-      </div>
-    );
-  };
+  // const switchMinutesSession = () => {
+  //   return (
+  //     <div
+  //       className='align-items-end'
+  //       id='timer-label'
+  //       style={{
+  //         fontSize: '2rem',
+  //         margin: '15px',
+  //         padding: '15px',
+  //         backgroundColor: 'wheat',
+  //         border: '1px solid black',
+  //         borderRadius: '30px',
+  //       }}
+  //     >
+  //       <div className='col'>
+  //         <label id='timer-label'>{timerBr ? 'Break' : 'Session'}</label>
+  //         <div id='time-left' className='col'>
+  //           {formatTime(displayTime)}
+  //         </div>
+  //         {startStop()}
+  //       </div>
+  //     </div>
+  //   );
+  // };
+  // const switchMinutesBr = () => {
+  //   return (
+  //     <div
+  //       className='align-items-end'
+  //       id='timer-label'
+  //       style={{
+  //         fontSize: '2rem',
+  //         margin: '15px',
+  //         padding: '15px',
+  //         backgroundColor: 'wheat',
+  //         border: '1px solid black',
+  //         borderRadius: '30px',
+  //       }}
+  //     >
+  //       <div className='col'>
+  //         <label id='timer-label'>{timerBr ? 'Break' : 'Session'}</label>
+  //         <div id='time-left' className='col'>
+  //           {formatTime(displayTime)}
+  //         </div>
+  //         {startStop()}
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   const startStop = () => {
     return (
@@ -97,22 +91,37 @@ export default function App() {
       </div>
     );
   };
-  const formatTime = () => {
-    const ss = `${timer % 60}`.slice(-2);
-    const minutes = `${Math.floor(timer / 60)}`;
-    const mm = `${minutes % 90}`.slice(-2);
-    const seconds = ss < 10 ? '0' + ss : ss;
-    const minutess = mm < 10 ? '0' + mm : mm;
-    return `${minutess}:${seconds}`;
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const ss = time % 60;
+    return (
+      (minutes < 10 ? '0' + minutes : minutes) + ':' + (ss < 10 ? '0' + ss : ss)
+    );
   };
-  const formatTimes = () => {
-    const ss = `0${timerBr % 60}`.slice(-2);
-    const minutes = `${Math.floor(timerBr / 60)}`;
-    const mm = `0${minutes % 60}`.slice(1, 2);
+  // const formatTimes = () => {
+  //   const ss = `0${timerBr % 60}`.slice(-2);
+  //   const minutes = `${Math.floor(timerBr / 60)}`;
+  //   const mm = `0${minutes % 60}`.slice(1, 2);
 
-    return `${mm}:${ss}`;
+  //   return `${mm}:${ss}`;
+  // };
+
+  const changeTime = (amount, type) => {
+    if (type === 'Break') {
+      if (timerBr <= 60 && amount < 0) {
+        return;
+      }
+      setTimerBr((prev) => prev + amount);
+    } else {
+      if (timer <= 60 && amount < 0) {
+        return;
+      }
+      setTimer((prev) => prev + amount);
+      if (!isActive) {
+        setDisplayTime(timer + amount);
+      }
+    }
   };
-
   return (
     <div
       className='container algin-items-center justify-content-center '
@@ -123,68 +132,45 @@ export default function App() {
         textAlign: 'center',
       }}
     >
+      {' '}
       <h1 className='align-items-start'>25 + 5 Clock</h1>
-      <div className='align-items-center' id='break-label'>
-        <div className='col' id='break-label'>
-          Break Length
-        </div>
-        <button
-          value='-'
-          className='col'
-          id='break-decrement'
-          onClick={() => setTimerBr((prev) => prev - 60)}
-        >
-          -
-        </button>
-        <div
-          id='break-length'
-          value={timerBr || ''}
-          className='col'
-          style={{ fontSize: '1.5rem' }}
-        >
-          {formatTimes(timerBr).slice(0, -3)}
-          {/* <button onClick={start2}>Start</button> */}
-        </div>
-        <button
-          value='+'
-          className='col'
-          id='break-increment'
-          onClick={() => setTimerBr((prev) => prev + 60)}
-        >
-          +
-        </button>
-      </div>
-
-      <div className='align-items-center' id='session-label'>
-        <div className='col'>Session Length</div>
-        <button
-          value='-'
-          id='session-decrement'
-          className='col'
-          onClick={() => setTimer((prev) => prev - 60)}
-        >
-          -
-        </button>
-        <div
-          value={timer}
-          id='session-length'
-          className='col'
-          style={{ fontSize: '1.5rem' }}
-        >
-          {formatTime({timer}, () => {
-            console.log(timer, 'timer');
-          }).slice(0, -3)}
-        </div>
-        <button
-          value='+'
-          id='session-increment'
-          className='col'
-          onClick={() => setTimer((prev) => prev + 60)}
-        >
-          +
-        </button>
-      </div>
-      {timer < 0 ? switchMinutesBr() : switchMinutesSession()}
+      <SwitchLength
+        time={timerBr}
+        title={'Break Length'}
+        formatTime={formatTime}
+        changeTime={changeTime}
+        type={'Break'}
+        label={'break-label'}
+        decrement={'break-decrement'}
+        length={'break-length'}
+        increment={'break-increment'}
+      />
+      <SwitchLength
+        time={timer}
+        title={'Session Length'}
+        formatTime={formatTime}
+        changeTime={changeTime}
+        type={'Session'}
+        label={'session-label'}
+        decrement={'session-decrement'}
+        length={'session-length'}
+        increment={'session-increment'}
+      />
+      {displayTime ? (
+        <TimerLeft
+          formatTime={formatTime}
+          displayTime={displayTime}
+          startStop={startStop}
+          type={'Session'}
+        />
+      ) : (
+        <TimerLeft
+          formatTime={formatTime}
+          displayTime={timerBr}
+          startStop={startStop}
+          type={'Break'}
+        />
+      )}
     </div>
   );
 }

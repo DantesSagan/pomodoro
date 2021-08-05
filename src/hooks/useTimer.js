@@ -33,15 +33,16 @@ export default function useTimer() {
 
   const [isActive, setIsActive] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [timer, setTimer] = useState(1500);
-  const [timerBr, setTimerBr] = useState(300);
+  const [timer, setTimer] = useState(25 * 60);
+  const [timerBr, setTimerBr] = useState(5 * 60);
+  const [displayTime, setDisplayTime] = useState(25 * 60);
   const countRef = useRef(null);
 
   const handleStart = () => {
     setIsActive(true);
     setIsPaused(true);
     countRef.current = setInterval(() => {
-      setTimer((timer) => timer - 1);
+      setDisplayTime((timer) => timer - 1);
     }, 1000);
   };
 
@@ -55,7 +56,7 @@ export default function useTimer() {
     // Resume button logic here
     setIsPaused(true);
     countRef.current = setInterval(() => {
-      setTimer((timer) => timer - 1);
+      setDisplayTime((timer) => timer - 1);
     }, 1000);
   };
 
@@ -64,8 +65,9 @@ export default function useTimer() {
     clearInterval(countRef.current);
     setIsActive(false);
     setIsPaused(false);
-    setTimer(1500);
-    setTimerBr(3900);
+    setTimer(25*60);
+    setTimerBr(5*60);
+    setDisplayTime(25*60)
   };
   return {
     // end,
@@ -75,6 +77,8 @@ export default function useTimer() {
     // minutes,
     // setCounter,
     // setMinutes,
+    displayTime,
+    setDisplayTime,
     timerBr,
     timer,
     isActive,

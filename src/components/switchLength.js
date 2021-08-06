@@ -1,7 +1,7 @@
 export default function SwitchLength({
   time,
   title,
-  formatTime,
+  formatTimeLength,
   changeTime,
   type,
   label,
@@ -24,8 +24,7 @@ export default function SwitchLength({
           -
         </button>
         <div id={length} className='col' style={{ fontSize: '1.5rem' }}>
-          {formatTime(time)}
-          {/* <button onClick={start2}>Start</button> */}
+          {formatTimeLength(time)}
         </div>
         <button
           value='+'

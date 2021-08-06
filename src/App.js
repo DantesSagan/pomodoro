@@ -1,15 +1,10 @@
 import SwitchLength from './components/switchLength';
-import TimerLeft from './components/timerLeft';
 import useTimer from './hooks/useTimer';
+import breakSound from './audio/breakSound.mp3';
 import './App.css';
 
 export default function App() {
   const {
-    // start,
-    // start2,
-    // end,
-    // setTimer,
-    // setMinutes,
     displayTime,
     setDisplayTime,
     timerBr,
@@ -22,56 +17,8 @@ export default function App() {
     handleResume,
     handleReset,
     handleStart,
+    audio
   } = useTimer();
-
-  // const switchMinutesSession = () => {
-  //   return (
-  //     <div
-  //       className='align-items-end'
-  //       id='timer-label'
-  //       style={{
-  //         fontSize: '2rem',
-  //         margin: '15px',
-  //         padding: '15px',
-  //         backgroundColor: 'wheat',
-  //         border: '1px solid black',
-  //         borderRadius: '30px',
-  //       }}
-  //     >
-  //       <div className='col'>
-  //         <label id='timer-label'>{timerBr ? 'Break' : 'Session'}</label>
-  //         <div id='time-left' className='col'>
-  //           {formatTime(displayTime)}
-  //         </div>
-  //         {startStop()}
-  //       </div>
-  //     </div>
-  //   );
-  // };
-  // const switchMinutesBr = () => {
-  //   return (
-  //     <div
-  //       className='align-items-end'
-  //       id='timer-label'
-  //       style={{
-  //         fontSize: '2rem',
-  //         margin: '15px',
-  //         padding: '15px',
-  //         backgroundColor: 'wheat',
-  //         border: '1px solid black',
-  //         borderRadius: '30px',
-  //       }}
-  //     >
-  //       <div className='col'>
-  //         <label id='timer-label'>{timerBr ? 'Break' : 'Session'}</label>
-  //         <div id='time-left' className='col'>
-  //           {formatTime(displayTime)}
-  //         </div>
-  //         {startStop()}
-  //       </div>
-  //     </div>
-  //   );
-  // };
 
   const startStop = () => {
     return (
@@ -85,7 +32,11 @@ export default function App() {
             <button onClick={handleResume}>Resume</button>
           )}
         </div>
-        <button id='reset' onClick={handleReset} disabled={!isActive}>
+        <button
+          id='reset'
+          onClick={handleReset}
+          // disabled={!isActive}
+        >
           Reset
         </button>
       </div>
@@ -98,22 +49,18 @@ export default function App() {
       (minutes < 10 ? '0' + minutes : minutes) + ':' + (ss < 10 ? '0' + ss : ss)
     );
   };
-  // const formatTimes = () => {
-  //   const ss = `0${timerBr % 60}`.slice(-2);
-  //   const minutes = `${Math.floor(timerBr / 60)}`;
-  //   const mm = `0${minutes % 60}`.slice(1, 2);
-
-  //   return `${mm}:${ss}`;
-  // };
+  const formatTimeLength = (time) => {
+    return time / 60;
+  };
 
   const changeTime = (amount, type) => {
     if (type === 'Break') {
-      if (timerBr <= 60 && amount < 0) {
+      if ((timerBr <= 60 && amount < 0) || timerBr >= 60 * 60) {
         return;
       }
       setTimerBr((prev) => prev + amount);
     } else {
-      if (timer <= 60 && amount < 0) {
+      if ((timer <= 60 && amount < 0) || timer >= 60 * 60) {
         return;
       }
       setTimer((prev) => prev + amount);
@@ -144,6 +91,7 @@ export default function App() {
         decrement={'break-decrement'}
         length={'break-length'}
         increment={'break-increment'}
+        formatTimeLength={formatTimeLength}
       />
       <SwitchLength
         time={timer}
@@ -155,22 +103,31 @@ export default function App() {
         decrement={'session-decrement'}
         length={'session-length'}
         increment={'session-increment'}
+        formatTimeLength={formatTimeLength}
       />
-      {displayTime ? (
-        <TimerLeft
-          formatTime={formatTime}
-          displayTime={displayTime}
-          startStop={startStop}
-          type={'Session'}
-        />
-      ) : (
-        <TimerLeft
-          formatTime={formatTime}
-          displayTime={timerBr}
-          startStop={startStop}
-          type={'Break'}
-        />
-      )}
+      <div
+        className='align-items-end'
+        style={{
+          fontSize: '2rem',
+          margin: '15px',
+          padding: '15px',
+          backgroundColor: 'wheat',
+          border: '1px solid black',
+          borderRadius: '30px',
+        }}
+      >
+        <div className='col'>
+          <label id='timer-label'>{timerBr ? 'Break' : 'Session'}</label>
+          <div id='time-left' className='col'>
+            {formatTime(displayTime) 
+            
+            }
+            
+          </div>
+          {startStop()}
+        </div>
+        {audio()}
+      </div>
     </div>
   );
 }

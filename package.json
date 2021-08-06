@@ -15,8 +15,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha --timeout 15000 server/**/*.test.js",
+    "test-watch": "nodemon --exec 'npm test'"
   },
   "eslintConfig": {
     "extends": [

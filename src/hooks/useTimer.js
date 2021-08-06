@@ -1,48 +1,57 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import breakSound from '../audio/breakSound.mp3';
 
 export default function useTimer() {
-  // const [end, setEnd] = useState();
-  // const start = () => setEnd(Date.now() + minutes * 60000 + 100);
-  // const start2 = () => setEnd(Date.now() + counter * 60000 + 100);
-  // const pad = (n) => ('0' + n).slice(-2);
-  // const millisecondsToTimer = (ms) => {
-  //   if (ms < 0) {
-  //     return '0:00';
-  //   }
-  //   const minutes = Math.floor(ms / 60000);
-  //   const seconds = pad(Math.floor((ms - minutes * 60000) / 1000));
-  //   return `${minutes}:${seconds}`;
-  // };
-
-  // useEffect(() => {
-  //   if (!end) {
-  //     return;
-  //   }
-  //   setIsActive(true);
-  //   setIsPaused(true);
-  //   countRef.current = setInterval(
-  //     () => setTimer(millisecondsToTimer(end - Date.now())),
-  //     1000
-  //   );
-  //   setTimer(millisecondsToTimer(end - Date.now()));
-  //   return () => clearInterval(countRef.current);
-  // }, [end]);
-  // const [counter, setCounter] = useState(5);
-  // const [minutes, setMinutes] = useState(25);
-
   const [isActive, setIsActive] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [timer, setTimer] = useState(25 * 60);
   const [timerBr, setTimerBr] = useState(5 * 60);
   const [displayTime, setDisplayTime] = useState(25 * 60);
   const countRef = useRef(null);
+  let [breakAudio, setBreakAudio] = useState(new Audio(breakSound));
 
+  const audio = () => {
+    return <audio id='beep' ref={(s) => (breakAudio = s)} src={breakSound} />;
+  };
+
+  useEffect(() => {
+    if (displayTime <= 0) {
+      setIsPaused(true);
+      playBreakSound();
+    } else if (!isActive && displayTime === timerBr) {
+      setIsPaused(false);
+    }
+  }, [displayTime, isPaused, isActive, timerBr, timer]);
+
+  const playBreakSound = () => {
+    breakAudio.volume = 0.5;
+    breakAudio.currentTime = 0;
+    breakAudio.play().catch((error) => {
+      //  when an exception is played, the exception flow is followed
+    });
+  };
+  // it('assertion success', async () => {
+  //   const result = await displayTime;
+  //   expect(result).to.equal('promise resolved');
+  // });
   const handleStart = () => {
     setIsActive(true);
     setIsPaused(true);
+    let onBreakVariable = timerBr;
     countRef.current = setInterval(() => {
-      setDisplayTime((timer) => timer - 1);
+      setDisplayTime((prev) => {
+        if (prev <= 0 && !onBreakVariable) {
+          onBreakVariable = true;
+          setTimerBr(true);
+          return timerBr;
+        } else if (prev <= 0 && onBreakVariable) {
+          onBreakVariable = false;
+          setTimerBr(false);
+          return timer;
+        }
+        return prev - 1;
+      });
     }, 1000);
   };
 
@@ -50,6 +59,7 @@ export default function useTimer() {
     // Pause button logic here
     clearInterval(countRef.current);
     setIsPaused(false);
+    breakAudio.pause();
   };
 
   const handleResume = () => {
@@ -65,18 +75,13 @@ export default function useTimer() {
     clearInterval(countRef.current);
     setIsActive(false);
     setIsPaused(false);
-    setTimer(25*60);
-    setTimerBr(5*60);
-    setDisplayTime(25*60)
+    setTimer(25 * 60);
+    setTimerBr(5 * 60);
+    setDisplayTime(25 * 60);
+    breakAudio.pause();
+    breakAudio.currentTime = 0;
   };
   return {
-    // end,
-    // start,
-    // start2,
-    // counter,
-    // minutes,
-    // setCounter,
-    // setMinutes,
     displayTime,
     setDisplayTime,
     timerBr,
@@ -89,5 +94,6 @@ export default function useTimer() {
     handlePause,
     handleResume,
     handleReset,
+    audio,
   };
 }

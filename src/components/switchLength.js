@@ -16,7 +16,6 @@ export default function SwitchLength({
           {title}
         </div>
         <button
-          value='-'
           className='col'
           id={decrement}
           onClick={() => changeTime(-60, type)}

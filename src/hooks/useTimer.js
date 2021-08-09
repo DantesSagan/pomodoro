@@ -27,37 +27,51 @@ export default function useTimer() {
   const playBreakSound = () => {
     breakAudio.volume = 0.5;
     breakAudio.currentTime = 0;
-    breakAudio.play().catch((error) => {
-      //  when an exception is played, the exception flow is followed
-    });
+    breakAudio.play();
+    // .catch((error) => {
+    //   //  when an exception is played, the exception flow is followed
+    // });
   };
   // it('assertion success', async () => {
   //   const result = await displayTime;
   //   expect(result).to.equal('promise resolved');
   // });
   const handleStart = () => {
-    setIsActive(true);
-    setIsPaused(true);
-    let onBreakVariable = timerBr;
-    countRef.current = setInterval(() => {
-      setDisplayTime((prev) => {
-        if (prev <= 0 && !onBreakVariable) {
-          onBreakVariable = true;
-          setTimerBr(true);
-          return timerBr;
-        } else if (prev <= 0 && onBreakVariable) {
-          onBreakVariable = false;
-          setTimerBr(false);
-          return timer;
+    let second = 1000;
+    let date = new Date().getTime();
+    let nextDate = new Date().getTime() + second;
+    let onBreakVariable = isPaused;
+    if (!isActive) {
+      let interval = (countRef.current = setInterval(() => {
+        date = new Date().getTime();
+        if (date > nextDate) {
+          setDisplayTime((prev) => {
+            if (prev <= 0 && !onBreakVariable) {
+              onBreakVariable = true;
+              setTimerBr(true);
+              return timerBr;
+            } else if (prev <= 0 && onBreakVariable) {
+              onBreakVariable = false;
+              setTimerBr(false);
+              return timer;
+            }
+            return prev - 1;
+          });
+          nextDate += second;
         }
-        return prev - 1;
-      });
-    }, 1000);
+      }, 1000));
+      localStorage.clear();
+      localStorage.setItem('interval-id', interval);
+    }
+    if (isActive) {
+      clearInterval(localStorage.getItem('interval-id'));
+    }
+    setIsActive(!isActive);
   };
 
   const handlePause = () => {
     // Pause button logic here
-    clearInterval(countRef.current);
+    clearInterval(localStorage.getItem('interval-id'));
     setIsPaused(false);
     breakAudio.pause();
   };
@@ -72,14 +86,14 @@ export default function useTimer() {
 
   const handleReset = () => {
     // Reset button logic here
-    clearInterval(countRef.current);
+    clearInterval(localStorage.getItem('interval-id'));
     setIsActive(false);
     setIsPaused(false);
     setTimer(25 * 60);
     setTimerBr(5 * 60);
     setDisplayTime(25 * 60);
-    breakAudio.pause();
     breakAudio.currentTime = 0;
+    breakAudio.pause();
   };
   return {
     displayTime,

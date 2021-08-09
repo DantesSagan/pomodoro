@@ -1,6 +1,5 @@
 import SwitchLength from './components/switchLength';
 import useTimer from './hooks/useTimer';
-import breakSound from './audio/breakSound.mp3';
 import './App.css';
 
 export default function App() {
@@ -17,28 +16,58 @@ export default function App() {
     handleResume,
     handleReset,
     handleStart,
-    audio
+    audio,
   } = useTimer();
 
   const startStop = () => {
     return (
       <div className='col'>
-        <div id='start_stop'>
-          {!isActive && !isPaused ? (
-            <button onClick={handleStart}>Start</button>
-          ) : isPaused ? (
-            <button onClick={handlePause}>Pause</button>
-          ) : (
-            <button onClick={handleResume}>Resume</button>
-          )}
+        <div
+          className='col btn-large deep-green lighten-2'
+          id='start_stop'
+          onClick={handleStart}
+        >
+          <i
+            className='material-icons'
+            style={{
+              border: '1px solid black',
+              borderRadius: '30px',
+              margin: '5px',
+              fontSize: '4rem',
+              cursor: 'pointer',
+            }}
+          >
+            play_circle_filled
+          </i>{' '}
+          <i
+            className='material-icons'
+            onClick={handlePause}
+            style={{
+              border: '1px solid black',
+              borderRadius: '30px',
+              margin: '5px',
+              fontSize: '4rem',
+              cursor: 'pointer',
+            }}
+          >
+            pause_circle_filled
+          </i>
         </div>
-        <button
+        <div
           id='reset'
+          className='material-icons'
           onClick={handleReset}
+          style={{
+            border: '1px solid black',
+            borderRadius: '30px',
+            margin: '5px',
+            fontSize: '4rem',
+            cursor: 'pointer',
+          }}
           // disabled={!isActive}
         >
-          Reset
-        </button>
+          refresh
+        </div>
       </div>
     );
   };
@@ -73,7 +102,7 @@ export default function App() {
     <div
       className='container algin-items-center justify-content-center '
       style={{
-        marginTop: '125px',
+        marginTop: '50px',
         padding: '100px',
         display: 'block',
         textAlign: 'center',
@@ -114,17 +143,21 @@ export default function App() {
           backgroundColor: 'wheat',
           border: '1px solid black',
           borderRadius: '30px',
+          display: 'inline-block',
         }}
       >
         <div className='col'>
-          <label id='timer-label'>{timerBr ? 'Break' : 'Session'}</label>
-          <div id='time-left' className='col'>
-            {formatTime(displayTime) 
-            
-            }
-            
+          <h2 id='timer-label' style={{ fontSize: '4rem' }}>
+            {isPaused ? 'Break' : 'Session'}
+          </h2>
+          <hr />
+          <div id='time-left' className='col' style={{ fontSize: '4rem' }}>
+            {formatTime(displayTime)}
           </div>
-          {startStop()}
+          <hr />
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            {startStop()}
+          </div>
         </div>
         {audio()}
       </div>

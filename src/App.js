@@ -13,7 +13,7 @@ export default function App() {
     isPaused,
     setTimer,
     handlePause,
-    handleResume,
+    // handleResume,
     handleReset,
     handleStart,
     audio,
@@ -22,36 +22,35 @@ export default function App() {
   const startStop = () => {
     return (
       <div className='col'>
-        <div
-          className='col btn-large deep-green lighten-2'
-          id='start_stop'
-          onClick={handleStart}
-        >
-          <i
-            className='material-icons'
-            style={{
-              border: '1px solid black',
-              borderRadius: '30px',
-              margin: '5px',
-              fontSize: '4rem',
-              cursor: 'pointer',
-            }}
-          >
-            play_circle_filled
-          </i>{' '}
-          <i
-            className='material-icons'
-            onClick={handlePause}
-            style={{
-              border: '1px solid black',
-              borderRadius: '30px',
-              margin: '5px',
-              fontSize: '4rem',
-              cursor: 'pointer',
-            }}
-          >
-            pause_circle_filled
-          </i>
+        <div className='col ' id='start_stop' onClick={handleStart}>
+          {isActive ? (
+            <i
+              className='material-icons'
+              onClick={handlePause}
+              style={{
+                border: '1px solid black',
+                borderRadius: '30px',
+                margin: '5px',
+                fontSize: '4rem',
+                cursor: 'pointer',
+              }}
+            >
+              pause_circle_filled
+            </i>
+          ) : (
+            <i
+              className='material-icons'
+              style={{
+                border: '1px solid black',
+                borderRadius: '30px',
+                margin: '5px',
+                fontSize: '4rem',
+                cursor: 'pointer',
+              }}
+            >
+              play_circle_filled
+            </i>
+          )}
         </div>
         <div
           id='reset'
@@ -100,58 +99,57 @@ export default function App() {
   };
   return (
     <div
-      className='container algin-items-center justify-content-center '
+      className='container algin-items-center justify-content-center bg back'
       style={{
-        marginTop: '50px',
-        padding: '100px',
         display: 'block',
         textAlign: 'center',
       }}
     >
       {' '}
-      <h1 className='align-items-start'>25 + 5 Clock</h1>
-      <SwitchLength
-        time={timerBr}
-        title={'Break Length'}
-        formatTime={formatTime}
-        changeTime={changeTime}
-        type={'Break'}
-        label={'break-label'}
-        decrement={'break-decrement'}
-        length={'break-length'}
-        increment={'break-increment'}
-        formatTimeLength={formatTimeLength}
-      />
-      <SwitchLength
-        time={timer}
-        title={'Session Length'}
-        formatTime={formatTime}
-        changeTime={changeTime}
-        type={'Session'}
-        label={'session-label'}
-        decrement={'session-decrement'}
-        length={'session-length'}
-        increment={'session-increment'}
-        formatTimeLength={formatTimeLength}
-      />
+      <h1 className='align-items-start' style={{ fontSize: '3em' }}>
+        25 + 5 Clock
+      </h1>
+      <div className='row row-cols-2'>
+        <SwitchLength
+          time={timerBr}
+          title={'Break Length'}
+          changeTime={changeTime}
+          type={'Break'}
+          label={'break-label'}
+          decrement={'break-decrement'}
+          length={'break-length'}
+          increment={'break-increment'}
+          formatTimeLength={formatTimeLength}
+        />
+        <SwitchLength
+          time={timer}
+          title={'Session Length'}
+          changeTime={changeTime}
+          type={'Session'}
+          label={'session-label'}
+          decrement={'session-decrement'}
+          length={'session-length'}
+          increment={'session-increment'}
+          formatTimeLength={formatTimeLength}
+        />
+      </div>
       <div
         className='align-items-end'
         style={{
           fontSize: '2rem',
           margin: '15px',
           padding: '15px',
-          backgroundColor: 'wheat',
           border: '1px solid black',
           borderRadius: '30px',
           display: 'inline-block',
         }}
       >
         <div className='col'>
-          <h2 id='timer-label' style={{ fontSize: '4rem' }}>
+          <h2 id='timer-label' style={{ fontSize: '1.5em' }}>
             {isPaused ? 'Break' : 'Session'}
           </h2>
           <hr />
-          <div id='time-left' className='col' style={{ fontSize: '4rem' }}>
+          <div id='time-left' className='col' style={{ fontSize: '2.2em' }}>
             {formatTime(displayTime)}
           </div>
           <hr />

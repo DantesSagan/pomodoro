@@ -5,11 +5,11 @@ import breakSound from '../audio/breakSound.mp3';
 export default function useTimer() {
   const [isActive, setIsActive] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [timer, setTimer] = useState(25 * 60);
-  const [timerBr, setTimerBr] = useState(5 * 60);
-  const [displayTime, setDisplayTime] = useState(25 * 60);
+  const [timer, setTimer] = useState(25*60);
+  const [timerBr, setTimerBr] = useState(5*60);
+  const [displayTime, setDisplayTime] = useState(25*60);
   const countRef = useRef(null);
-  let [breakAudio, setBreakAudio] = useState(new Audio(breakSound));
+  let [breakAudio] = useState(new Audio(breakSound));
 
   const audio = () => {
     return <audio id='beep' ref={(s) => (breakAudio = s)} src={breakSound} />;
@@ -48,11 +48,11 @@ export default function useTimer() {
           setDisplayTime((prev) => {
             if (prev <= 0 && !onBreakVariable) {
               onBreakVariable = true;
-              setTimerBr(true);
+              setIsPaused(true);
               return timerBr;
             } else if (prev <= 0 && onBreakVariable) {
               onBreakVariable = false;
-              setTimerBr(false);
+              setIsPaused(false);
               return timer;
             }
             return prev - 1;

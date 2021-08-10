@@ -31,7 +31,8 @@
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root"></div>
+  <div id="root" class="arrowRigth"></div>
+
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -47,5 +48,108 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
 </body>
+<style>
+  .arrowRigth {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 800px solid transparent;
+    border-bottom: 800px solid transparent;
+    border-left: 820px solid black;
+    border-right: 820px solid black;
+    background-color: white;
+  }
+
+  @media only screen and (max-width: 1440px) {
+    .arrowRigth {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      border-top: 600px solid transparent;
+      border-bottom: 600px solid transparent;
+      border-left: 620px solid black;
+      border-right: 620px solid black;
+      background-color: white;
+    }
+  }
+
+  @media only screen and (max-width: 1280px) {
+    .arrowRigth {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      border-top: 550px solid transparent;
+      border-bottom: 550px solid transparent;
+      border-left: 520px solid black;
+      border-right: 520px solid black;
+      background-color: white;
+    }
+  }
+
+  @media only screen and (max-width: 1024px) {
+    .arrowRigth {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      border-top: 400px solid transparent;
+      border-bottom: 400px solid transparent;
+      border-left: 420px solid black;
+      border-right: 420px solid black;
+      background-color: white;
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    .arrowRigth {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      border-top: 200px solid transparent;
+      border-bottom: 200px solid transparent;
+      border-left: 240px solid black;
+      border-right: 240px solid black;
+      background-color: white;
+    }
+  }
+
+  @media only screen and (max-width: 425px) {
+    .arrowRigth {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      border-top: 130px solid transparent;
+      border-bottom: 130px solid transparent;
+      border-left: 100px solid black;
+      border-right: 100px solid black;
+      background-color: white;
+    }
+  }
+
+  @media only screen and (max-width: 375px) {
+    .arrowRigth {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      border-top: 35px solid transparent;
+      border-bottom: 35px solid transparent;
+      border-left: 35px solid black;
+      border-right: 35px solid black;
+      background-color: white;
+    }
+  }
+
+  @media only screen and (max-width: 320px) {
+    .arrowRigth {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      border-top: 35px solid transparent;
+      border-bottom: 35px solid transparent;
+      border-left: 35px solid black;
+      border-right: 35px solid black;
+      background-color: white;
+    }
+  }
+</style>
 
 </html>

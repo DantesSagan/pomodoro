@@ -10,10 +10,10 @@ export default function SwitchLength({
   increment,
 }) {
   return (
-    <div>
+    <div className='backLength'>
       <div className='align-items-center'>
         <div className='col' id={label}>
-          {title}
+          <h3>{title}</h3>
         </div>
         <button
           className='col material-icons'
@@ -26,7 +26,7 @@ export default function SwitchLength({
             cursor: 'pointer',
           }}
         >
-          <h2>-</h2>
+          <h2 style={{marginTop: '-10px'}}>-</h2>
         </button>
         <div id={length} className='col' style={{ fontSize: '1.5rem' }}>
           {formatTimeLength(time)}
@@ -38,7 +38,7 @@ export default function SwitchLength({
           style={{
             border: '1px solid black',
             borderRadius: '30px',
-            fontSize: '2rem',
+            fontSize: '1rem',
             cursor: 'pointer',
           }}
         >

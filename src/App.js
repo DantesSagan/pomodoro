@@ -12,7 +12,7 @@ export default function App() {
     isActive,
     isPaused,
     setTimer,
-    handlePause,
+    // handlePause,
     // handleResume,
     handleReset,
     handleStart,
@@ -26,7 +26,6 @@ export default function App() {
           {isActive ? (
             <i
               className='material-icons'
-              onClick={handlePause}
               style={{
                 border: '1px solid black',
                 borderRadius: '30px',
@@ -159,6 +158,11 @@ export default function App() {
         </div>
         {audio()}
       </div>
+      <span>
+        <p>
+          <i>Coded by @DantesSagan</i>
+        </p>
+      </span>
     </div>
   );
 }

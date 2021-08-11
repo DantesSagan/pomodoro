@@ -4,6 +4,9 @@
   background-size: 200% auto;
 }
 .material-icons:hover {
+  background-image: linear-gradient(to right, blue 0%, white 51%, red 100%);
+  transition: 0.25s;
+  background-size: 200% auto;
   background-position: right center;
   color: white;
   text-decoration: none;
@@ -23,4 +26,9 @@
   box-shadow: 0 8px 32px 0 rgba(24, 0, 255, 0.9);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
+}
+.backLength {
+  border-width: 2px;
+  border-style: solid;
+  border-image: linear-gradient(to bottom, blue, rgba(0, 0, 0, 0)) 1 25%;
 }

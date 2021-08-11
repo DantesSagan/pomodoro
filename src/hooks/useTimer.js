@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useRef, useState, useEffect } from 'react';
-import breakSound from '../audio/breakSound.mp3';
+import breakSound from '../audio/breakSound.wav';
 
 export default function useTimer() {
   const [isActive, setIsActive] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [timer, setTimer] = useState(25*60);
-  const [timerBr, setTimerBr] = useState(5*60);
-  const [displayTime, setDisplayTime] = useState(25*60);
+  const [timer, setTimer] = useState(25 * 60);
+  const [timerBr, setTimerBr] = useState(5 * 60);
+  const [displayTime, setDisplayTime] = useState(25 * 60);
   const countRef = useRef(null);
   let [breakAudio] = useState(new Audio(breakSound));
 
@@ -15,27 +15,23 @@ export default function useTimer() {
     return <audio id='beep' ref={(s) => (breakAudio = s)} src={breakSound} />;
   };
 
+  const playBreakSound = () => {
+    breakAudio.volume = 0.5;
+    breakAudio.currentTime = 0;
+    breakAudio.play();
+  };
+
   useEffect(() => {
     if (displayTime <= 0) {
-      setIsPaused(true);
+      if (isPaused && timerBr <= 0) {
+        setIsPaused(true);
+      }
       playBreakSound();
     } else if (!isActive && displayTime === timerBr) {
       setIsPaused(false);
     }
   }, [displayTime, isPaused, isActive, timerBr, timer]);
 
-  const playBreakSound = () => {
-    breakAudio.volume = 0.5;
-    breakAudio.currentTime = 0;
-    breakAudio.play();
-    // .catch((error) => {
-    //   //  when an exception is played, the exception flow is followed
-    // });
-  };
-  // it('assertion success', async () => {
-  //   const result = await displayTime;
-  //   expect(result).to.equal('promise resolved');
-  // });
   const handleStart = () => {
     let second = 1000;
     let date = new Date().getTime();

@@ -1,10 +1,10 @@
 .material-icons {
-  background-image: linear-gradient(to right, blue 0%, white 51%, black 100%);
+  background-image: linear-gradient(to right, gray 0%, white 51%, red 100%);
   transition: 0.25s;
   background-size: 200% auto;
 }
 .material-icons:hover {
-  background-image: linear-gradient(to right, blue 0%, white 51%, red 100%);
+  background-image: linear-gradient(to right, gray 0%, black 51%, red 100%);
   transition: 0.25s;
   background-size: 200% auto;
   background-position: right center;
@@ -17,18 +17,32 @@
   boxshadow: '3px 3px 5px black';
 }
 .bg {
-  border-width: 5px;
+  border-width: 2px;
   border-style: solid;
   border-image: linear-gradient(to bottom, blue, rgba(0, 0, 0, 0)) 1 100%;
 }
 .back {
   background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 8px 32px 0 rgba(24, 0, 255, 0.9);
+  box-shadow: 0 8px 32px 0 rgba(156, 146, 172, 0.9);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
 }
 .backLength {
   border-width: 2px;
   border-style: solid;
-  border-image: linear-gradient(to bottom, blue, rgba(0, 0, 0, 0)) 1 25%;
+  border-image: linear-gradient(to bottom, gray, rgba(0, 0, 0, 0)) 1 25%;
+}
+.back-color {
+  background-color: #e4e4e1;
+  background-image: radial-gradient(
+      at top center,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(0, 0, 0, 0.03) 100%
+    ),
+    linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(143, 152, 157, 0.6) 100%
+    );
+  background-blend-mode: normal, multiply;
 }

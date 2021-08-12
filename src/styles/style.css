@@ -6,8 +6,8 @@
   border-radius: 35px;
   color: white;
 }
-#expression{
-    color: orange;
+#expression {
+  color: orange;
 }
 .button {
   border: 1px solid black;
@@ -35,3 +35,12 @@
   padding: 10px 0px 10px 0px;
   margin-bottom: 15px;
 }
+/* .mt {
+  margin-top: 1.5em;
+}
+@media only and (max-width: 320px) {
+  .mt {
+    margin-top: 1.5em;
+     margin-bottom: 12.5em;
+  }
+} */

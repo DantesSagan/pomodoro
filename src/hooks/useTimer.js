@@ -23,7 +23,7 @@ export default function useTimer() {
 
   useEffect(() => {
     if (displayTime <= 0) {
-      if (isPaused && timerBr <= 0) {
+      if (!isPaused && timerBr <= 0) {
         setIsPaused(true);
       }
       playBreakSound();

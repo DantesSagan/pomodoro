@@ -189,7 +189,7 @@ export default function App() {
       </div>
       <span>
         <p>
-          <i>Coded by @DantesSagan</i>
+          <i><a href='https://github.com/DantesSagan/pomodoro'>Coded by @DantesSagan</a></i>
         </p>
       </span>
     </div>
